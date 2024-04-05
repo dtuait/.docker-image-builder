@@ -24,5 +24,6 @@ Here are some example usages of the script:
 
 Build a Docker image without pushing to Docker Hub:
 
-```bash
+
 bash my-image-builder.sh --imagepath '__owner__vicre__project__api-security-ait-dtu-dk__image__app-main__tag__python-3.10-bullseye-django-4.2.11-27-03-2024-venv-myversion-1.0.5'
+bash my-image-builder.sh --imagepath '__owner__vicre__project__api-security-ait-dtu-dk__image__app-main__tag__python-3.10-bullseye-django-4.2.11-27-03-2024-venv-myversion-1.0.5' --push-to-hub
