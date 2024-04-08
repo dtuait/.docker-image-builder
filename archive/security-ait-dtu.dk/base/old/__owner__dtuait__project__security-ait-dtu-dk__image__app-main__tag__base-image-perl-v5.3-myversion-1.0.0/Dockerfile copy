@@ -1,0 +1,246 @@
+# Start with the official Debian 10 base image
+FROM debian:buster
+
+
+
+
+##############                          ##############
+##############    The basic stuff       ##############
+##############       starts here        ##############
+##############                          ##############
+
+
+
+
+###### fix locales ######
+# Install locales package
+RUN apt-get update && \
+    apt-get install -y locales
+
+# Generate the en_US.UTF-8 locale
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LC_ALL=en_US.UTF-8
+
+# Set environment variables for locale
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+###### fix locales ######
+
+
+
+# Installing the packages that allows 
+RUN apt-get update && apt-get install -y \
+     tree \
+     build-essential  \
+     nano \
+     zip \
+     unzip \
+     git \
+     wget \
+     curl \ 
+     lsb-release \
+     software-properties-common \
+     apt-transport-https \
+     ca-certificates
+
+
+# set the time
+RUN ln -fs /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+
+# install the mail server
+
+
+
+
+
+
+
+
+##############                          ##############
+##############    The basic stuff       ##############
+##############       ends here          ##############
+##############                          ##############
+
+
+
+##############                          ##############
+##############    The perl stuff        ##############
+##############       starts here        ##############
+##############                          ##############
+
+RUN apt-get update && \
+    apt-get install -y \ 
+        perl \
+        perl-debug \
+        cpanminus \
+        libanyevent-perl \
+        libclass-refresh-perl \
+        perl-doc \ 
+        libidn2-dev
+
+RUN yes | cpan Compiler::Lexer
+
+RUN apt-get install -y \
+    libdata-dump-perl \
+    libio-aio-perl \
+    libjson-perl \
+    libmoose-perl \
+    libpadwalker-perl \
+    libscalar-list-utils-perl \
+    libcoro-perl \
+    libexpat1-dev
+
+RUN yes | cpan Perl::LanguageServer
+
+RUN cpan Net::LibIDN2
+RUN cpan Net::DNS
+RUN cpan Net::Subnet
+RUN cpan Net::LDAPS
+RUN cpan REST::Client
+RUN cpan Net::IP
+RUN cpan XML::Parser
+RUN cpan XML::SAX::Expat
+RUN cpan XML::Simple
+RUN cpan DBI
+RUN cpan Template
+RUN cpan JSON
+
+
+
+##############                          ##############
+##############    The perl stuff        ##############
+##############       ends here          ##############
+##############                          ##############
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### This part installs perl 5.3 and perl debug #####
+##### installing perl debug #####
+# apt-get install -y build-essential
+
+# RUN apt install -y perl
+# RUN apt install perl-debug -y
+# RUN apt install cpanminus -y
+# RUN apt install libanyevent-perl -y
+# RUN apt install libclass-refresh-perl -y
+# RUN yes | cpan Compiler::Lexer
+# RUN apt install libdata-dump-perl -y 
+# RUN apt install libio-aio-perl -y 
+# RUN apt install libjson-perl -y 
+# RUN apt install libmoose-perl -y 
+# RUN apt install libpadwalker-perl -y 
+# RUN apt install libscalar-list-utils-perl -y 
+# RUN apt install libcoro-perl -y
+# RUN yes | cpan Perl::LanguageServer
+
+##### installing perl debug #####
+
+
+# ### install apache2 and php7.3 ####
+# RUN apt-get update && apt-get install -y software-properties-common
+# RUN DEBIAN_FRONTEND=noninteractive apt install apache2 -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+# RUN apt update && apt install -y curl software-properties-common apt-transport-https lsb-release ca-certificates
+# RUN curl -fsSL https://packages.sury.org/php/apt.gpg | apt-key add -
+# RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
+# RUN apt update
+# RUN DEBIAN_FRONTEND=noninteractive apt install -y php7.3 -o Dpkg::Options::="--force-confold"
+# RUN apt install -y php7.3-xdebug php7.3-mysql
+# ### install apache2 and php7.3 ####
+
+# ###### install composer ######
+
+
+# RUN cd /tmp && curl -sS https://getcomposer.org/installer -o composer-setup.php && \
+#     HASH="$(curl -sS https://composer.github.io/installer.sig)" && \
+#     if echo "$HASH composer-setup.php" | sha384sum -c - | grep "composer-setup.php: OK"; then \
+#         php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+#         composer --version && \
+#         rm /tmp/composer-setup.php; \
+#     fi
+
+# # RUN apt-get install -y zip unzip git moved to basic
+# ###### install composer ######
+
+# RUN apt-get install -y  php7.3-curl
+
+# # Adding aitsoc user
+# RUN groupadd -g 1006 aitsoc
+# RUN gpasswd -a www-data aitsoc
+# RUN useradd -u 1006 -g 1006 -c "DTU SOC server" -d /home/aitsoc -m -s /bin/bash aitsoc
+
+# ####### INSTALL CPAN LIBRARIES for aitsoc #######
+# # RUN a2ensite 000-default security.ait.dtu.dk
+
+
+
+
+
+
+# # basic tools
+# # RUN apt-get install -y wget # moved to basoic tools
+
+# #### cas
+# RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libapache2-mod-auth-cas -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+# RUN a2enmod auth_cas
+
+# #### perl-cgi
+# RUN apt-get install -y libapache2-mod-perl2
+
+
+# # Install perl-doc
+# RUN apt-get install -y perl-doc
+
+# # install NET::DNS::RESOLVER
+# RUN apt-get install -y libidn2-dev
+# RUN cpan Net::LibIDN2
+# RUN cpan Net::DNS
+# RUN cpan Net::Subnet
+# RUN cpan Net::LDAPS
+# #mignt not work
+# RUN cpan REST::Client
+# RUN cpan Net::IP
+# RUN apt-get install -y libexpat1-dev
+# RUN cpan XML::Parser
+# RUN cpan XML::SAX::Expat
+# RUN cpan XML::Simple
+# RUN cpan DBI
+# RUN cpan Template
+# RUN cpan JSON
+
+
+
+# ##### microsoft
+# RUN echo "deb [arch=amd64] https://packages.microsoft.com/debian/10/prod buster main" > /etc/apt/sources.list.d/microsoft-prod.list
+# RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+# RUN apt update
+# RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+# RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+# RUN apt update && ACCEPT_EULA=Y apt-get install -y msodbcsql18
+# RUN apt-get install -y libdbd-odbc-perl
+# #### RUN ACCEPT_EULA=Y apt-get install -y msodbcsql18
+
+
+
+
+
+# # set datetime
+# RUN ln -sf /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime
+
+# RUN timeout 2s service apache2 stop;  service apache2 stop;
+# ####### INSTALL CPAN LIBRARIES for aitsoc #######
+
