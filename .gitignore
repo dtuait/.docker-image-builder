@@ -1,0 +1,4 @@
+*.bak
+
+archive/*
+__owner__*__project__*__image__*__tag__*
