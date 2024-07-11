@@ -1,1 +1,4 @@
 *.bak
+# ignore the docker files, they should be only inside the project itself
+# - ignore all folders that starts with __owner__
+__owner__*
