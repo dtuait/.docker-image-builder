@@ -4,6 +4,8 @@
 # bash my-image-builder.sh --imagepath '__owner__vicre__project__api-security-ait-dtu-dk__image__app-main__tag__python-3.10-bullseye-django-4.2.11-27-03-2024-venv-myversion-1.0.5' --push-to-hub
 # bash my-image-builder.sh --push-to-hub --imagepath ''
 # bash my-image-builder.sh --imagepath ''
+# bash my-image-builder.sh --imagepath '/full/path/to/image'
+# it is a good practice to store Dockerfiles (the build for the image) in ../.docker-image-builder-archive
 # Initialize push flag to false
 PUSH_TO_HUB=false
 DEBUG=false
