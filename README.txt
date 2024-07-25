@@ -1,3 +1,5 @@
+This script is a submudule, and it needs to be located at [main-git-project]/.devcontainer/.docker-image-builder. It relies on folder called [main-git-project]/.devcontainer/.docker-image-builder-archive. This is where the generated images Dockerfile and etc. are stored.
+
 # my-image-builder.sh Usage Guide
 
 This script is used to build and optionally push Docker images. The image details are provided through the `--imagepath` argument in a special format.
